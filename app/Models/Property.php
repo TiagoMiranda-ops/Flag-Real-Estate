@@ -9,6 +9,8 @@ class Property extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+    
     protected $primaryKey = 'property_id';
 
     protected $fillable = [
