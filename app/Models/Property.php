@@ -22,16 +22,19 @@ class Property extends Model
         'property_type',
         'property_description', 
         'property_price',
-        'broker_id',
-        'purchase_offer_id',
+        'user_id',
     ];
 
     public function purchaseOffer(){
-        return $this->hasMany(PurchaseOffer::class, 'purchase_offer_id', 'property_id');
+        return $this->hasMany(PurchaseOffer::class, 'property_id', 'property_id');
     }
 
     public function userBroker(){
-        return $this->belongsTo(User::class, 'broker_id', 'property_id');
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
+
+    public function taggedProperty(){
+        return $this->belongsToMany(User::class);
     }
 
 }

@@ -17,6 +17,7 @@ class Appointment extends Model
         'broker_id', 
     ];
 
+    /*
     public function userCustomer(){
         return $this->belongsTo(User::class, 'customer_id', 'appointment_id');
     }
@@ -24,6 +25,6 @@ class Appointment extends Model
     public function userBroker(){
         return $this->belongsTo(User::class, 'broker_id', 'appointment_id');
     }
-
+    */
 
 }

@@ -6,6 +6,11 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Property') }} #{{ $property->property_id}}</div>
+
+                @if (Session::has('message'))
+                    <div class="alert alert-warning bg-warning text-dark">{{ Session::get('message') }}</div>
+                @endif
+                
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-6 col-md-5" style="text-align: center">

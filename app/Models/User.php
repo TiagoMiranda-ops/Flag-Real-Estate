@@ -26,9 +26,6 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
-        'purchase_offer_id',
-        'property_id',
-        'appointment_id',
     ];
 
     /**
@@ -51,20 +48,28 @@ class User extends Authenticatable
     ];
 
     public function role(){
-        return $this->belongsTo(Role::class, 'role_id', 'user_id');
+        return $this->belongsTo(Role::class, 'role_id', 'role_id');
     }
     
     public function purchaseOffer(){
-        return $this->hasMany(PurchaseOffer::class, 'purchase_offer_id', 'user_id');
+        return $this->hasMany(PurchaseOffer::class, 'user_id', 'user_id');
     }
 
     public function property(){
-        return $this->hasMany(Property::class, 'property_id', 'user_id');
+        return $this->hasMany(Property::class, 'user_id', 'user_id');
     }
 
+    public function userFavourites(){
+        return $this->belongsToMany(Property::class);
+    }
+
+
+
+    /*
     public function appointment(){
         return $this->hasMany(Appointment::class, 'appointment_id', 'user_id');
     }
+    */
 
 
 }

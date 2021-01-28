@@ -15,8 +15,11 @@
     </div>
 
     @if (Session::has('message'))
-        <div class="alert alert-warning bg-warning text-dark">{{ Session::get('message') }}</div>
+        <div style="text-align: left" class="alert alert-warning bg-warning text-dark">{{ Session::get('message') }}</div>
+    @elseif (Session::has('message-delete'))
+    <div style="text-align: left" class="alert alert-warning bg-danger text-white">{{ Session::get('message-delete') }}</div>
     @endif
+   
 
     <table class="table table-striped table-bordered">
         <thead>
@@ -26,6 +29,7 @@
                 <td>County</td>
                 <td>Type</td>
                 <td>m<sup>2</sup></td>
+                <td>Broker</td>
                 <td>Actions</td>
             </tr>
         </thead>
@@ -37,8 +41,15 @@
                 <td>{{ $value->property_county }}</td>
                 <td>{{ $value->property_type }}</td>
                 <td>{{ $value->property_sqm }}</td>
+                <td></td>
                 <td style="text-align: center; min-width:175px;">
-                <a href="{{ route('properties.show', $value->property_id) }}"><button type="button" class="btn btn-outline-warning text-dark">View</button></a>
+                <a class="btn btn-lg text-dark" href="{{ route('properties.show', $value->property_id) }}" title="View"><i class="bi bi-info-square"></i></a>
+                <a class="btn btn-lg text-dark" href="{{ route('properties.edit', $value->property_id) }}" title="Edit"><i class="bi bi-pen"></i></a>
+                <form style="display:inline" method="POST" action="{{ route('properties.destroy', $value->property_id) }}">
+                        @csrf 
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-lg text-danger" title="Delete"><i class="bi bi-x-square"></i></button>
+                </form>
                 </td>
             </tr>
         @endforeach

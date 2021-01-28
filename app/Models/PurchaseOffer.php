@@ -17,15 +17,15 @@ class PurchaseOffer extends Model
         'purchase_offer_date_status', 
         'purchase_offer_value',
         'property_id', 
-        'customer_id',
+        'user_id',
     ];
 
     public function userCustomer(){
-        return $this->belongsTo(User::class, 'customer_id', 'purchase_offer_id');
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
     public function property(){
-        return $this->belongsTo(Property::class, 'property_id', 'purchase_offer_id');
+        return $this->belongsTo(Property::class, 'property_id', 'property_id');
     }
 
 }
