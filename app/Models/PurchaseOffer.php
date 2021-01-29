@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class PurchaseOffer extends Model
 {
     use HasFactory;
+    
+    public $timestamps = false;
 
     protected $primaryKey = 'purchase_offer_id';
 
     protected $fillable = [
         'purchase_offer_date_entry', 
-        'purchase_offer_date_response',
         'purchase_offer_date_status', 
         'purchase_offer_value',
         'property_id', 

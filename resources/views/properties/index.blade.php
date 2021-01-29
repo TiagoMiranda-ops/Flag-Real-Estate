@@ -43,8 +43,9 @@
                 <td>{{ $value->property_sqm }}</td>
                 <td></td>
                 <td style="text-align: center; min-width:175px;">
-                <a class="btn btn-lg text-dark" href="{{ route('properties.show', $value->property_id) }}" title="View"><i class="bi bi-info-square"></i></a>
-                <a class="btn btn-lg text-dark" href="{{ route('properties.edit', $value->property_id) }}" title="Edit"><i class="bi bi-pen"></i></a>
+                <a class="btn-lg text-dark" href="{{ route('properties.show', $value->property_id) }}" title="View"><i class="bi bi-info-square"></i></a>
+                <a class="btn-lg text-dark" href="{{ route('properties.edit', $value->property_id) }}" title="Edit"><i class="bi bi-pen"></i></a>
+                <a class="btn-lg text-success" href="{{ route('offers.create') }}" title="Make an offer"><i class="bi bi-cash-stack"></i></a>
                 <form style="display:inline" method="POST" action="{{ route('properties.destroy', $value->property_id) }}">
                         @csrf 
                         @method('DELETE')

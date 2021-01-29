@@ -51,11 +51,11 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, 'role_id', 'role_id');
     }
     
-    public function purchaseOffer(){
+    public function purchaseOffers(){
         return $this->hasMany(PurchaseOffer::class, 'user_id', 'user_id');
     }
 
-    public function property(){
+    public function properties(){
         return $this->hasMany(Property::class, 'user_id', 'user_id');
     }
 

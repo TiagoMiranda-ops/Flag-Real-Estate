@@ -2,8 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\PurchaseOfferController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Models\Property;
+use App\Models\PurchaseOffer;
+use App\Models\User;
 
 
 /*
@@ -29,6 +33,10 @@ Route::get('/properties/{property_id}/edit', [PropertyController::class, 'edit']
 Route::put('/properties/{property_id}', [PropertyController::class, 'update'])->name('properties.update');
 */
 Route::resource('/properties', PropertyController::class);
+
+Route::resource('/offers', PurchaseOfferController::class);
+
+Route::resource('/users', UserController::class);
 
 
 

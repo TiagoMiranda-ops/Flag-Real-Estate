@@ -27,7 +27,8 @@
                             <hr>   
                             <p>
                                 <strong>Type - </strong>{{ $property->property_type }}<br>
-                                <strong>Square metres - </strong>{{ $property->property_sqm }}m<sup>2</sup>
+                                <strong>Square metres - </strong>{{ $property->property_sqm }}m<sup>2</sup><br>
+                                <strong>Year - </strong>{{ $property->property_year }}<br>
                             </p>     
                         </div>
                     </div>

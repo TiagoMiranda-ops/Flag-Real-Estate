@@ -33,7 +33,7 @@ class Property extends Model
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
-    public function taggedProperty(){
+    public function taggedProperties(){
         return $this->belongsToMany(User::class);
     }
 

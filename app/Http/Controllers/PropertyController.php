@@ -7,6 +7,7 @@ use App\Models\Property;
 use App\Models\PurchaseOffer;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Exception;
 
 class PropertyController extends Controller
@@ -14,7 +15,7 @@ class PropertyController extends Controller
     
     public function index() {
 
-        $properties = Property::all()->sortByDesc('property_id');
+        $properties = Property::all()->sortByDesc('property_price');
 
         return view('properties.index', [
             'properties' => $properties,
@@ -55,6 +56,7 @@ class PropertyController extends Controller
         $property->property_type = $request->get('property_type');
         $property->property_description = $request->get('property_description');
         $property->property_price = $request->get('property_price');
+        $property->user_id = Auth::id();
 
         $property->save();
 
@@ -111,7 +113,7 @@ class PropertyController extends Controller
             'property_district' => 'required|alpha',
             'property_county' => 'required|alpha',
             'property_address' => 'required',
-            'property_year' => 'required|numeric|lte:4',
+            'property_year' => 'required|max:4',
             'property_sqm' => 'required|numeric',
             'property_type' => 'required',
             'property_description' => 'required',
@@ -120,7 +122,7 @@ class PropertyController extends Controller
 
         $customMessages = [
             'alpha' => "This field may only accept letters. Don't be dumb.",
-            'lte' => "Only up to 4 numbers. By 10000 we will have been long gone.",
+            'property_year.max' => "Only up to 4 numbers. By 10000 we will have been long gone.",
             'property_sqm.numeric' => "Only numbers. You're getting under my skin.",
             'property_price.numeric' => "Can't buy houses with words. That's stoopid with two o's.",
         ];

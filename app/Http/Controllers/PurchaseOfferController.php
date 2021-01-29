@@ -4,8 +4,70 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PurchaseOffer;
+use App\Models\Property;
+use App\Models\User;
+use Illuminate\Support\Facades\Validator;
+use Exception;
 
 class PurchaseOfferController extends Controller
 {
-    //
+    public function index() {
+
+        $purchaseOffers = PurchaseOffer::all()->sortByDesc('purchase_offer_status');
+
+        return view('offers.index', [
+            'purchaseOffers' => $purchaseOffers,
+        ]);
+    }
+
+    public function create() {
+
+        return view('offers.create', [
+             'offers' => PurchaseOffer::all(),
+         ]);
+    }
+
+    public function store(Request $request) {
+
+        
+        $purchaseOffer = new PurchaseOffer;
+        $purchaseOffer->purchase_offer_date_entry = $request->get('purchase_offer_date_entry');
+        $purchaseOffer->purchase_offer_status = $request->get('purchase_offer_status');
+        $purchaseOffer->purchase_offer_value = $request->get('purchase_offer_value');
+
+        $purchaseOffer->save();
+
+        return redirect()->route('offers.index')->with('message', 'Offer successfully made'); 
+
+
+    }
+
+    public function edit($purchase_offer_id) {
+
+        $purchaseOffer = PurchaseOffer::findOrFail($purchase_offer_id);
+
+        return view('offers.edit', [
+            'purchaseOffer' => $purchaseOffer,
+        ]);
+    }
+
+    public function update(Request $request, $purchase_offer_id) {
+
+        $purchaseOffer = PurchaseOffer::findOrFail($purchase_offer_id);
+        
+        $purchaseOffer->purchase_offer_status = $request->get('purchase_offer_status');
+       
+    
+        $purchaseOffer->save();
+
+        return redirect()->route('offers.index')->with('message', 'Offer successfully adjudicated');        
+    }
+
+    public function destroy($purchase_offer_id)
+    {
+        $purchaseOffer = PurchaseOffer::findOrFail($purchase_offer_id);
+        $purchaseOffer->delete();
+
+        return redirect()->route('offers.index')->with('message-delete', 'Offer successfully deleted');
+    }
 }

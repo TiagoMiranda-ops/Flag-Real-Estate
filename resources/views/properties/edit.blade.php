@@ -86,10 +86,10 @@
                             <label for="property_type" class="col-md-4 col-form-label text-md-right">{{ __('Type') }}</label>
                             <div class="col-md-6">
                                  <select class="custom-select" name="property_type" id="property_type" >
-                                    <option value="Residential">Residential</option>
-                                    <option value="Commercial">Commercial</option>
-                                    <option value="Industrial">Industrial</option>
-                                    <option value="Land">Land</option>   
+                                    <option value="Residential" {{ ( $property->property_type == "Residential") ? 'selected' : ''}}>Residential</option>
+                                    <option value="Commercial" {{ ( $property->property_type == "Commercial") ? 'selected' : ''}}>Commercial</option>
+                                    <option value="Industrial" {{ ( $property->property_type == "Industrial") ? 'selected' : ''}}>Industrial</option>
+                                    <option value="Land" {{ ( $property->property_type == "Land") ? 'selected' : ''}}>Land</option>   
                                 </select>                               
                             </div>
                         </div>
