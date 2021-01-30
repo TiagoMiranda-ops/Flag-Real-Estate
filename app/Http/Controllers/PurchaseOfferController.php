@@ -7,10 +7,18 @@ use App\Models\PurchaseOffer;
 use App\Models\Property;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Exception;
 
 class PurchaseOfferController extends Controller
 {
+
+    public  function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function index() {
 
         $purchaseOffers = PurchaseOffer::all()->sortByDesc('purchase_offer_status');
@@ -34,6 +42,9 @@ class PurchaseOfferController extends Controller
         $purchaseOffer->purchase_offer_date_entry = $request->get('purchase_offer_date_entry');
         $purchaseOffer->purchase_offer_status = $request->get('purchase_offer_status');
         $purchaseOffer->purchase_offer_value = $request->get('purchase_offer_value');
+        $purchaseOffer->property_id = $request->get('property');
+        $purchaseOffer->user_id = Auth::id();
+        
 
         $purchaseOffer->save();
 
