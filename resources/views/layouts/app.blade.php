@@ -38,6 +38,7 @@
                         <li><a class="navbar-brand" href="{{ route('properties.index') }}"> {{ ('//Properties') }}</a></li>
                         <li><a class="navbar-brand" href="{{ route('offers.index') }}"> {{ ('//Offers') }}</a></li>
                         <li><a class="navbar-brand" href="{{ route('users.index') }}"> {{ ('//Users') }}</a></li>
+                        <li><a class="navbar-brand" href="{{ route('offers.sales') }}"> {{ ('//Sale Statistics') }}</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

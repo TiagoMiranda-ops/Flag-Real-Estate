@@ -34,10 +34,12 @@ Route::put('/properties/{property_id}', [PropertyController::class, 'update'])->
 */
 Route::resource('/properties', PropertyController::class);
 
-Route::resource('/offers', PurchaseOfferController::class);
+Route::get('/offers/create/{id}', [PurchaseOfferController::class, 'create'])->name('offers.create');
+Route::get('/offers/sales', [PurchaseOfferController::class, 'sales'])->name('offers.sales');
+Route::resource('/offers', PurchaseOfferController::class, ['except' => ['create', 'sales']]);
+
 
 Route::resource('/users', UserController::class);
-
 
 
 

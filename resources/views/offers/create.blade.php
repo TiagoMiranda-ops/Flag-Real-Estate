@@ -16,6 +16,7 @@
 
                             <div class="col-md-6">
                                 <input readonly="readonly" id="purchase_offer_status" type="text" class="form-control @error('purchase_offer_status') is-invalid @enderror" name="purchase_offer_status" value="Pending" required autocomplete="purchase_offer_status">
+                                <input type="hidden" id="property" name="property" value="{{ $property }}">
 
                                 @error('purchase_offer_status')
                                     <span class="invalid-feedback" role="alert">

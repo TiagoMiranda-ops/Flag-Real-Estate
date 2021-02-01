@@ -8,9 +8,7 @@
             <div class="col-lg-6 pull-left" style="float:left">
                 <h2 style="text-align: left"> Purchase Offers </h2>
             </div>
-            <div class="col-lg-6 pull-right" style="float:right">
-                <a style="float:right" class="btn bg-warning text-dark border border-dark rounded font-weight-bold" href="{{ route('offers.create') }}" title="Make a new offer"> Make a new offer </a>
-            </div>
+          
         </div>
     </div>
 
@@ -25,22 +23,30 @@
         <thead>
             <tr>
                 <td>Customer</td>
+                <td>Property ID</td>
+                <td>Value</td>
                 <td>Date of entry</td>
                 <td>Status</td>
-                <td>Value</td>
                 <td>Adjudicate</td>
-                <td>Delete</td>
+                <td>Delete (No Backup)</td>
             </tr>
         </thead>
         <tbody>
         @foreach($purchaseOffers as $value)
             <tr>
-                <td></td>
-                <td>{{ $value->purchase_offer_date_entry }}</td>
-                <td>{{ $value->purchase_offer_status }}</td>
+                <td>{{ $value->userCustomer->name}}</td>
+                <td>{{ $value->property->property_id }}</td>
                 <td>{{ number_format($value->purchase_offer_value, 0, '', '.') }}</td>
+                <td>{{ $value->purchase_offer_date_entry }}</td>
+                @if ($value->purchase_offer_status == "Pending")
+                    <td class="bg-secondary">{{ $value->purchase_offer_status }}</td>
+                @elseif ($value->purchase_offer_status == "Accepted")
+                    <td class="bg-success">{{ $value->purchase_offer_status }}</td>
+                @else ($value->purchase_offer_status == "Declined")
+                    <td class="bg-danger">{{ $value->purchase_offer_status }}</td>
+                @endif
                 <td style="text-align: center; min-width:175px;">
-                <a class="btn-lg text-dark" href="{{ route('offers.edit', $value->purchase_offer_id) }}" title="Adjudicate"><i class="bi bi-pen"></i></a>
+                <a class="btn-lg text-secondary" href="{{ route('offers.edit', $value->purchase_offer_id) }}" title="Adjudicate"><i class="bi bi-hammer"></i></a>
                 </td>
                 <td style="text-align: center; min-width:175px;"> 
                 <form style="display:inline" method="POST" action="{{ route('offers.destroy', $value->purchase_offer_id) }}">

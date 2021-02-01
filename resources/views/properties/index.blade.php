@@ -30,6 +30,7 @@
                 <td>Type</td>
                 <td>m<sup>2</sup></td>
                 <td>Broker</td>
+                <td>Property ID</td>
                 <td>Actions</td>
             </tr>
         </thead>
@@ -41,7 +42,8 @@
                 <td>{{ $value->property_county }}</td>
                 <td>{{ $value->property_type }}</td>
                 <td>{{ $value->property_sqm }}</td>
-                <td></td>
+                <td>{{ $value->userBroker->name }}</td>
+                <td>{{ $value->property_id}}</td>
                 <td style="text-align: center; min-width:175px;">
                 <a class="btn-lg text-dark" href="{{ route('properties.show', $value->property_id) }}" title="View"><i class="bi bi-info-square"></i></a>
                 <a class="btn-lg text-dark" href="{{ route('properties.edit', $value->property_id) }}" title="Edit"><i class="bi bi-pen"></i></a>

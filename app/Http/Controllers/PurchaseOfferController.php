@@ -28,15 +28,29 @@ class PurchaseOfferController extends Controller
         ]);
     }
 
-    public function create() {
+    public function sales(){
+
+        $acceptedOffers= PurchaseOffer::where('purchase_offer_status','Accepted');
+
+        return view('offers.sales', [
+            'acceptedOffers' => $acceptedOffers,
+        ]);
+    }
+
+    public function create($getPropertyId) {
 
         return view('offers.create', [
-             'offers' => PurchaseOffer::all(),
+            'property' => $getPropertyId,
          ]);
     }
 
     public function store(Request $request) {
 
+        $validator = $this->validateStore($request);
+        
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors());
+        }
         
         $purchaseOffer = new PurchaseOffer;
         $purchaseOffer->purchase_offer_date_entry = $request->get('purchase_offer_date_entry');
@@ -64,11 +78,16 @@ class PurchaseOfferController extends Controller
 
     public function update(Request $request, $purchase_offer_id) {
 
+        $validator = $this->validateUpdate($request);
+        
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors());
+        }
+
         $purchaseOffer = PurchaseOffer::findOrFail($purchase_offer_id);
         
         $purchaseOffer->purchase_offer_status = $request->get('purchase_offer_status');
-       
-    
+
         $purchaseOffer->save();
 
         return redirect()->route('offers.index')->with('message', 'Offer successfully adjudicated');        
@@ -80,5 +99,33 @@ class PurchaseOfferController extends Controller
         $purchaseOffer->delete();
 
         return redirect()->route('offers.index')->with('message-delete', 'Offer successfully deleted');
+    }
+
+    private function validateStore(Request $request)
+    {
+
+        $requirements = array(
+            'purchase_offer_value' => 'required|numeric',
+        );
+
+        $customMessages = [
+            'purchase_offer_value.numeric' => "Can't buy houses with words. That's stoopid with two o's.",
+        ];
+
+        return Validator::make($request->all(), $requirements, $customMessages);
+    }
+
+    private function validateUpdate(Request $request)
+    {
+
+        $requirements = array(
+            'purchase_offer_status' => 'starts_with:Accepted,Declined',
+        );
+
+        $customMessages = [
+            'purchase_offer_status.starts_with' => "Status can only be 'Accepted' or 'Declined'.",
+        ];
+
+        return Validator::make($request->all(), $requirements, $customMessages);
     }
 }
