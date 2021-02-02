@@ -30,7 +30,7 @@ class PurchaseOfferController extends Controller
 
     public function sales(){
 
-        $acceptedOffers= PurchaseOffer::where('purchase_offer_status', '=', 'Accepted')->get();
+        $acceptedOffers= PurchaseOffer::where('purchase_offer_status', '=', 'Accepted')->orderBy('user_id', 'asc')->get();
         $totalValueSum = PurchaseOffer::where('purchase_offer_status', '=', 'Accepted')->sum('purchase_offer_value');
 
         return view('offers.sales', [

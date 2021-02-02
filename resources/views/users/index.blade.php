@@ -27,7 +27,7 @@
                 <td>E-mail</td>
                 <td>Registration Date</td>
                 <td>Role</td>
-                <td>Actions</td>
+                <td>Change Role</td>
             </tr>
         </thead>
         <tbody>
@@ -38,14 +38,16 @@
                 <td>{{ $value->phone }}</td>
                 <td>{{ $value->email }}</td>
                 <td>{{ $value->created_at}}</td>
-                <td></td>
-                <td></td>
+                <td>{{ $value->role->role_type }}</td>
+                <td style="text-align: center; min-width:175px;">
+                    <a class="btn-lg text-secondary" href="{{ route('users.edit', $value->user_id) }}" title="Change Role"><i class="bi bi-person-circle"></i></a>
+                </td>
             </tr>
         @endforeach
         </tbody>
     </table>
 
-
+    
 
 
 

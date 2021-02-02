@@ -36,6 +36,7 @@
         </thead>
         <tbody>
         @foreach($properties as $value)
+            
             <tr>
                 <td>{{ number_format($value->property_price, 0, '', '.') }}</td>
                 <td>{{ $value->property_district }}</td>
@@ -55,6 +56,7 @@
                 </form>
                 </td>
             </tr>
+           
         @endforeach
         </tbody>
     </table>
