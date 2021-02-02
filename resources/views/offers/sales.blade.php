@@ -5,10 +5,10 @@
 
     <div class="row">
         <div class="col-lg-12 margin-tb">
-            <div class="col-lg-6 pull-left" style="float:left">
+            <div class="col-lg-12 pull-left" style="float:left">
                 <h2 style="text-align: left"> Sale Statistics </h2>
+                <h3 style="text-align: right" class="btn bg-warning text-dark border border-dark rounded font-weight-bold" title="I had you there, this ain't a button!"> All sales combined: {{ number_format($totalValueSum, 0, '', '.') }} € </h3>
             </div>
-          
         </div>
     </div>
 
@@ -22,17 +22,17 @@
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <td>Broker</td>
+                <td>Broker ID</td>
                 <td>Property ID</td>
-                <td>Value</td>
+                <td>Value of Sale (€)</td>
             </tr>
         </thead>
         <tbody>
-        @foreach($acceptedOffers as $acceptedOffer)
+        @foreach($acceptedOffers as $value)
             <tr>
-                <td></td>
-                <td></td>
-                <td>{{ number_format($acceptedOffer->purchase_offer_value, 0, '', '.') }}</td>
+                <td>{{ $value->property->user_id }}</td>
+                <td>{{ $value->property->property_id }}</td>
+                <td>{{ number_format($value->purchase_offer_value, 0, '', '.') }}</td>
             </tr>
         @endforeach
         </tbody>

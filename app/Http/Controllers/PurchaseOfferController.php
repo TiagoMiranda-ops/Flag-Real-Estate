@@ -21,7 +21,7 @@ class PurchaseOfferController extends Controller
 
     public function index() {
 
-        $purchaseOffers = PurchaseOffer::all()->sortByDesc('purchase_offer_status');
+        $purchaseOffers = PurchaseOffer::all()->sortBy('property_id');
 
         return view('offers.index', [
             'purchaseOffers' => $purchaseOffers,
@@ -30,10 +30,12 @@ class PurchaseOfferController extends Controller
 
     public function sales(){
 
-        $acceptedOffers= PurchaseOffer::where('purchase_offer_status','Accepted');
+        $acceptedOffers= PurchaseOffer::where('purchase_offer_status', '=', 'Accepted')->get();
+        $totalValueSum = PurchaseOffer::where('purchase_offer_status', '=', 'Accepted')->sum('purchase_offer_value');
 
         return view('offers.sales', [
             'acceptedOffers' => $acceptedOffers,
+            'totalValueSum' => $totalValueSum,
         ]);
     }
 
