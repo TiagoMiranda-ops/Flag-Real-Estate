@@ -17,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
+        //User::class => PropertyPolicy::class,
     ];
 
     /**
@@ -28,32 +29,34 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-
+      
         Gate::define('isAdmin', function(User $user) {
             
-            return $user->role_id == '3';
-         
+            if ($user->role_id == 3) {
+                return true;
+            }
+                return false;
         });
 
         Gate::define('isBroker', function(User $user) {
             
-            return $user->role_id == '2';
-         
+            if ($user->role_id == 2) {
+                return true;
+            }
+                return false;
         });
 
         Gate::define('isCustomer', function(User $user) {
             
-            return $user->role_id == '1';
-         
+            if ($user->role_id == 1) {
+                return true;
+            }
+                return false;
         });
-
-
-
-        /*
+          
         Gate::define('edit-property', function (User $user, Property $property) {
             return $user->user_id === $property->user_id;
         });
-        */
-
+        
     }
 }

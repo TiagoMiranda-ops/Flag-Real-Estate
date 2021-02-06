@@ -5,7 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
+                <div class="card-header"><a class="btn-lg text-dark" href="{{ route('properties.index') }}" title="Go Back"><i class="bi bi-arrow-left-square"></i></a>{{ __('Return') }}</div>
                 <div class="card-header">{{ __('Property') }} #{{ $property->property_id}}</div>
+
 
                 @if (Session::has('message'))
                     <div class="alert alert-warning bg-warning text-dark">{{ Session::get('message') }}</div>

@@ -36,9 +36,9 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li><a class="navbar-brand" href="{{ route('properties.index') }}"> {{ ('//Properties') }}</a></li>
+                        @auth
                         <li><a class="navbar-brand" href="{{ route('offers.index') }}"> {{ ('//Offers') }}</a></li>
-                        <li><a class="navbar-brand" href="{{ route('users.index') }}"> {{ ('//Users') }}</a></li>
-                        <li><a class="navbar-brand" href="{{ route('offers.sales') }}"> {{ ('//Sale Statistics') }}</a></li>
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -57,6 +57,18 @@
                                 </li>
                             @endif
                         @else
+                            @can('isAdmin', auth()->user())
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="{{ route('offers.sales') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ ('Sale Statistics//') }}
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="{{ route('users.index') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ ('User Management//') }}
+                                </a>
+                            </li>
+                            @endcan
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

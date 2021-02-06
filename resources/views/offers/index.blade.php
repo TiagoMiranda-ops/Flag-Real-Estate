@@ -16,6 +16,8 @@
         <div style="text-align: left" class="alert alert-warning bg-warning text-dark">{{ Session::get('message') }}</div>
     @elseif (Session::has('message-delete'))
     <div style="text-align: left" class="alert alert-warning bg-danger text-white">{{ Session::get('message-delete') }}</div>
+    @elseif (Session::has('message-denied'))
+    <div style="text-align: left" class="alert alert-warning bg-danger text-white">{{ Session::get('message-denied') }}</div>
     @endif
    
 
@@ -27,8 +29,10 @@
                 <td>Value</td>
                 <td>Date of entry</td>
                 <td>Status</td>
+                @canany(['isAdmin', 'isBroker'], auth()->user())
                 <td>Adjudicate</td>
                 <td>Delete (No Backup)</td>
+                @endcanany
             </tr>
         </thead>
         <tbody>
@@ -45,6 +49,7 @@
                 @else ($value->purchase_offer_status == "Declined")
                     <td class="bg-danger">{{ $value->purchase_offer_status }}</td>
                 @endif
+                @canany(['isAdmin', 'isBroker'], auth()->user())
                 <td style="text-align: center; min-width:175px;">
                 <a class="btn-lg text-secondary" href="{{ route('offers.edit', $value->purchase_offer_id) }}" title="Adjudicate"><i class="bi bi-hammer"></i></a>
                 </td>
@@ -55,6 +60,7 @@
                         <button type="submit" class="btn btn-lg text-danger" title="Delete"><i class="bi bi-x-square"></i></button>
                 </form>
                 </td>
+                @endcanany
             </tr>
         @endforeach
         </tbody>

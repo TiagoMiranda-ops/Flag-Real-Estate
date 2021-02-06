@@ -18,6 +18,8 @@
         <div style="text-align: left" class="alert alert-warning bg-warning text-dark">{{ Session::get('message') }}</div>
     @elseif (Session::has('message-delete'))
     <div style="text-align: left" class="alert alert-warning bg-danger text-white">{{ Session::get('message-delete') }}</div>
+    @elseif (Session::has('message-denied'))
+    <div style="text-align: left" class="alert alert-warning bg-danger text-white">{{ Session::get('message-denied') }}</div>
     @endif
    
 
@@ -47,14 +49,20 @@
                 <td>{{ $value->property_id}}</td>
                 <td style="text-align: center; min-width:175px;">
                 <a class="btn-lg text-dark" href="{{ route('properties.show', $value->property_id) }}" title="View"><i class="bi bi-info-square"></i></a>
+                @auth
+                @canany(['isAdmin', 'isBroker'], auth()->user())
                 <a class="btn-lg text-dark" href="{{ route('properties.edit', $value->property_id) }}" title="Edit"><i class="bi bi-pen"></i></a>
+                @endcanany
                 <a class="btn-lg text-success" href="{{ route('offers.create', $value->property_id) }}" title="Make an offer"><i class="bi bi-cash-stack"></i></a>
+                @canany(['isAdmin', 'isBroker'], auth()->user())
                 <form style="display:inline" method="POST" action="{{ route('properties.destroy', $value->property_id) }}">
                         @csrf 
                         @method('DELETE')
-                        <button type="submit" class="btn btn-lg text-danger" title="Delete"><i class="bi bi-x-square"></i></button>
+                        <button type="submit" class="btn btn-lg text-danger" title="Delete - beware existing offers"><i class="bi bi-x-square"></i></button>
                 </form>
+                @endcanany
                 </td>
+                @endauth
             </tr>
            
         @endforeach

@@ -41,7 +41,13 @@ class PropertyPolicy
      */
     public function create(User $user)
     {
-        //
+
+        /*
+        return in_array($user->role_id, [
+            2,
+            3,
+        ]);
+        */
     }
 
     /**
@@ -54,7 +60,7 @@ class PropertyPolicy
 
     public function update(User $user, Property $property)
     {
-
+     
     }
 
     /**

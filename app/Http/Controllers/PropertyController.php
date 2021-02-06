@@ -8,6 +8,7 @@ use App\Models\PurchaseOffer;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Exception;
 
 class PropertyController extends Controller
@@ -39,16 +40,28 @@ class PropertyController extends Controller
 
     public function create() {
 
-        return view('properties.create', [
-             'properties' => Property::all(),
-         ]);
+        //$this->authorize('create', Property::class);
+
+        if (Gate::allows('isAdmin', Auth::user())) {
+            return view('properties.create', [
+                'properties' => Property::all(),
+            ]);
+        }elseif (Gate::allows('isBroker', Auth::user())) {
+            return view('properties.create', [
+                'properties' => Property::all(),
+            ]);
+        }else{
+            return redirect()->route('properties.index')->with('message-denied', 'You are not authorised to add new properties.'); 
+        };
     }
 
     public function store(Request $request) {
 
-        $validator = $this->validateInput($request);
         
-        if ($validator->fails()) {
+
+        $validator = $this->validateInput($request);
+
+         if ($validator->fails()) {
             return redirect()->route('properties.create')->withErrors($validator->errors());
         }
 
@@ -76,9 +89,19 @@ class PropertyController extends Controller
 
         $property = Property::findOrFail($property_id);
 
-        return view('properties.edit', [
-            'property' => $property,
-        ]);
+
+        if (Gate::allows('isAdmin', Auth::user())) {
+            return view('properties.edit', [
+                'property' => $property,
+            ]);
+        }elseif ( Gate::allows('isBroker', Auth::user()) && (Gate::allows('edit-property', $property)) ) {
+            return view('properties.edit', [
+                'property' => $property,
+            ]);
+        }else{
+            return redirect()->route('properties.index')->with('message-denied', 'You are not authorised to edit another broker\'s property, or even properties altogether.'); 
+        };
+
     }
 
     public function update(Request $request, Property $property) {
@@ -106,9 +129,25 @@ class PropertyController extends Controller
 
     public function destroy(Property $property)
     {
+        /*
         $property->delete();
 
         return redirect()->route('properties.index')->with('message-delete', 'Property successfully deleted');
+        */
+
+        if (Gate::allows('isAdmin', Auth::user())) {
+
+            $property->delete();
+            return redirect()->route('properties.index')->with('message-delete', 'Property - and ANY related offers - successfully deleted');
+
+        }elseif (Gate::allows('isBroker', Auth::user())) {
+
+            $property->delete();
+            return redirect()->route('properties.index')->with('message-delete', 'Property - and ANY related offers - successfully deleted');
+
+        }else{
+            return redirect()->route('properties.index')->with('message-denied', 'You are not authorised to delete any properties.'); 
+        };
     }
 
 

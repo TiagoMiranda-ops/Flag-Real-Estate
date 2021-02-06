@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Gate;
 use Exception;
 
 class UserController extends Controller
@@ -21,18 +22,26 @@ class UserController extends Controller
 
         $users = User::all()->sortByDesc('role_id');
 
-        return view('users.index', [
-            'users' => $users,
-        ]);
+        if (Gate::allows('isAdmin', Auth::user())) {
+            return view('users.index', [
+                'users' => $users,
+            ]);
+        }else{
+            return redirect()->route('properties.index')->with('message-denied', 'You are not authorised to access this page.'); 
+        };
     }
 
     public function edit($userId) {
 
         $userId = User::findOrFail($userId);
 
-        return view('users.edit', [
-            'userId' =>  $userId,
-        ]);
+        if (Gate::allows('isAdmin', Auth::user())) {
+            return view('users.edit', [
+                'userId' =>  $userId,
+            ]);
+        }else{
+            return redirect()->route('properties.index')->with('message-denied', 'Easy there, tiger. Are you really trying to breach our state-of-the-art cyber security?'); 
+        };
     }
 
     public function update(Request $request, $userId) {

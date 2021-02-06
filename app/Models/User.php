@@ -63,8 +63,12 @@ class User extends Authenticatable
         return $this->belongsToMany(Property::class);
     }
 
-
-
+    
+    public function isAdmin(){
+        if ($this->flatten()->pluck('role_id')->contains('3')) {
+            return true;
+        }
+    }
     /*
     public function appointment(){
         return $this->hasMany(Appointment::class, 'appointment_id', 'user_id');

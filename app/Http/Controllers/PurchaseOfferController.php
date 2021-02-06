@@ -8,6 +8,7 @@ use App\Models\Property;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Exception;
 
 class PurchaseOfferController extends Controller
@@ -33,17 +34,26 @@ class PurchaseOfferController extends Controller
         $acceptedOffers= PurchaseOffer::where('purchase_offer_status', '=', 'Accepted')->orderBy('user_id', 'asc')->get();
         $totalValueSum = PurchaseOffer::where('purchase_offer_status', '=', 'Accepted')->sum('purchase_offer_value');
 
-        return view('offers.sales', [
-            'acceptedOffers' => $acceptedOffers,
-            'totalValueSum' => $totalValueSum,
-        ]);
+        if (Gate::allows('isAdmin', Auth::user())) {
+            return view('offers.sales', [
+                'acceptedOffers' => $acceptedOffers,
+                'totalValueSum' => $totalValueSum,
+            ]);
+        }else{
+            return redirect()->route('properties.index')->with('message-denied', 'Only administrators can review sale statistics - we run a tight ship.'); 
+        };
+
     }
 
     public function create($getPropertyId) {
 
-        return view('offers.create', [
-            'property' => $getPropertyId,
-         ]);
+         if (Gate::allows('isCustomer', Auth::user())) {
+            return view('offers.create', [
+                'property' => $getPropertyId,
+             ]);
+        }else{
+            return redirect()->route('properties.index')->with('message-denied', 'Only customers can make offers. No insider trading around here.'); 
+        };
     }
 
     public function store(Request $request) {
@@ -73,9 +83,14 @@ class PurchaseOfferController extends Controller
 
         $purchaseOffer = PurchaseOffer::findOrFail($purchase_offer_id);
 
-        return view('offers.edit', [
-            'purchaseOffer' => $purchaseOffer,
-        ]);
+        if (Gate::allows('isBroker', Auth::user())) {
+            return view('offers.edit', [
+                'purchaseOffer' => $purchaseOffer,
+            ]);
+        }else{
+            return redirect()->route('offers.index')->with('message-denied', 'Only brokers are authorised to adjudicate offers.'); 
+        };
+
     }
 
     public function update(Request $request, $purchase_offer_id) {
@@ -98,9 +113,13 @@ class PurchaseOfferController extends Controller
     public function destroy($purchase_offer_id)
     {
         $purchaseOffer = PurchaseOffer::findOrFail($purchase_offer_id);
-        $purchaseOffer->delete();
 
-        return redirect()->route('offers.index')->with('message-delete', 'Offer successfully deleted');
+        if (Gate::allows('isAdmin', Auth::user())) {
+            $purchaseOffer->delete();
+            return redirect()->route('offers.index')->with('message-delete', 'Offer successfully deleted');
+        }else{
+            return redirect()->route('offers.index')->with('message-denied', 'Only administrators can delete offers - but why would anyone want that?');
+        };
     }
 
     private function validateStore(Request $request)
