@@ -38,6 +38,7 @@
                         <li><a class="navbar-brand" href="{{ route('properties.index') }}"> {{ ('//Properties') }}</a></li>
                         @auth
                         <li><a class="navbar-brand" href="{{ route('offers.index') }}"> {{ ('//Offers') }}</a></li>
+                        <li><a class="navbar-brand" href="{{ route('appointments.index') }}"> {{ ('//Appointments') }}</a></li>
                         @endauth
                     </ul>
 

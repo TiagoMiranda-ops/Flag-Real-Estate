@@ -5,9 +5,11 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\PurchaseOfferController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AppointmentController;
 use App\Models\Property;
 use App\Models\PurchaseOffer;
 use App\Models\User;
+use App\Models\Appointment;
 
 
 /*
@@ -24,15 +26,9 @@ use App\Models\User;
 Route::get('/', function () {
     return view('home');
 });
-/*
-Route::get('/properties', [PropertyController::class, 'index'])->name('properties.index');
-Route::get('/properties/create', [PropertyController::class, 'create'])->name('properties.create');
-Route::post('/properties', [PropertyController::class, 'store'])->name('properties.store');
-Route::get('/properties/{property_id}', [PropertyController::class, 'show'])->name('properties.show');
-Route::get('/properties/{property_id}/edit', [PropertyController::class, 'edit'])->name('properties.edit');
-Route::put('/properties/{property_id}', [PropertyController::class, 'update'])->name('properties.update');
-*/
+
 Route::resource('/properties', PropertyController::class);
+
 
 Route::get('/offers/create/{id}', [PurchaseOfferController::class, 'create'])->name('offers.create');
 Route::get('/offers/sales', [PurchaseOfferController::class, 'sales'])->name('offers.sales');
@@ -40,6 +36,9 @@ Route::resource('/offers', PurchaseOfferController::class, ['except' => ['create
 
 
 Route::resource('/users', UserController::class);
+
+
+Route::resource('/appointments', AppointmentController::class);
 
 
 

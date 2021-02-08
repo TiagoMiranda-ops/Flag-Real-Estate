@@ -129,11 +129,7 @@ class PropertyController extends Controller
 
     public function destroy(Property $property)
     {
-        /*
-        $property->delete();
-
-        return redirect()->route('properties.index')->with('message-delete', 'Property successfully deleted');
-        */
+       
 
         if (Gate::allows('isAdmin', Auth::user())) {
 

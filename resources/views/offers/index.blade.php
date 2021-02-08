@@ -26,7 +26,7 @@
             <tr>
                 <td>Customer</td>
                 <td>Property ID</td>
-                <td>Value</td>
+                <td>Value (€)</td>
                 <td>Date of entry</td>
                 <td>Status</td>
                 @canany(['isAdmin', 'isBroker'], auth()->user())
