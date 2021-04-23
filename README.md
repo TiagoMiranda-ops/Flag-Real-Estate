@@ -1,4 +1,4 @@
 # app-laravel
 real estate laravel application
 
-code is in "master" branch
+code is in the "master" branch
